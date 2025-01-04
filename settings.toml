@@ -1,0 +1,26 @@
+[default]
+LOG_TO_CONSOLE = true
+LOG_TO_FILE = false
+LOG_TO_SENTRY = false
+JSON_LOGS = false
+
+ENABLE_DOCS = true
+
+REST_LOGIN = "ADMINLOGIN"
+REST_PASSWORD = "9435c0c7de42b69028216880ffaf09ff"
+
+[production]
+LOG_TO_CONSOLE = true
+LOG_TO_FILE = false
+LOG_TO_SENTRY = false
+JSON_LOGS = false
+
+ENABLE_DOCS = true
+
+REST_LOGIN = "ADMINLOGIN"
+REST_PASSWORD = "9435c0c7de42b69028216880ffaf09ff"
+
+[global]
+PROJECT_NAME = "QuizFramework"
+SENTRY_URL = ""
+SENTRY_TRACES_SAMPLE_RATE = 0.005
