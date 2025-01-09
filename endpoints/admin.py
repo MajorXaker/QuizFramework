@@ -1,32 +1,46 @@
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, Depends
 
-from core.simple_game_manager import game, SimpleGameManager
+from core.simple_game_manager import game_manager
 from endpoints.auth import auth
 
-admin_router = APIRouter()
+admin_router = APIRouter(tags=["admin_side"])
 
-@admin_router.post("/run", dependencies=[Depends(auth)])
+
+@admin_router.post(
+    "/admin/restart",
+    dependencies=[Depends(auth)],
+)
 async def restart_game(
     max_rounds: int = None,
 ):
-    game.restart_game(rounds=max_rounds)
+    await game_manager.restart_game(rounds=max_rounds)
 
-    return {"restarted": "ok"}, status.HTTP_200_OK
+    return {"restarted": "ok"}
 
-@admin_router.post("/close", dependencies=[Depends(auth)])
+
+@admin_router.post("/admin/close_joining", dependencies=[Depends(auth)])
 async def close_registration():
-    game.prohibit_player_join()
+    await game_manager.prohibit_player_join()
 
-    return {"registration": "closed"}, status.HTTP_200_OK
+    return {"registration": "closed"}
 
-@admin_router.post("/open", dependencies=[Depends(auth)])
+
+@admin_router.post("/admin/open_joining", dependencies=[Depends(auth)])
 async def open_registration():
-    game.allow_player_join()
+    await game_manager.allow_player_join()
 
-    return {"registration": "open"}, status.HTTP_200_OK
+    return {"registration": "open"}
 
-@admin_router.post("/next_question", dependencies=[Depends(auth)])
+
+@admin_router.post("/admin/next_question", dependencies=[Depends(auth)])
 async def next_question():
-    game.next_round()
+    await game_manager.next_round()
 
-    return {"next_question": "ok"}, status.HTTP_200_OK
+    return {"next_question": "ok"}
+
+
+@admin_router.post("/admin/end_game", dependencies=[Depends(auth)])
+async def end_game():
+    await game_manager.end_game()
+
+    return {"game": "ended"}

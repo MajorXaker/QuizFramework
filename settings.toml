@@ -6,8 +6,12 @@ JSON_LOGS = false
 
 ENABLE_DOCS = true
 
-REST_LOGIN = "ADMINLOGIN"
-REST_PASSWORD = "9435c0c7de42b69028216880ffaf09ff"
+REST_LOGIN = "login"
+REST_PASSWORD = "pass"
+
+[test]
+REST_LOGIN = "test"
+REST_PASSWORD = "test"
 
 [production]
 LOG_TO_CONSOLE = true

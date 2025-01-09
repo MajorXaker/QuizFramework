@@ -6,61 +6,76 @@ from models.registered_response import RegisteredResponse
 
 class BaseGameManager:
     def __init__(self):
-        self._players: dict[int, Player] = {}
-        self._total_rounds = None
-        self._current_round = None
+        pass
 
-        self._current_answer_order: list[RegisteredResponse] = []
-        self._current_question_start: datetime = datetime.now(timezone.utc)
-
-        self._joining_allowed = True
-
-    def restart_game(self, rounds: int = None):
+    async def restart_game(self, rounds: int = None):
         """Method called when the game is restarted
         Args:
             rounds (int, optional): The number of rounds to play. Defaults to None.
         """
-        raise NotImplementedError
+        pass
 
-    def add_player(self, player: Player):
+    async def add_player(self, player: Player):
         """Method called when a player joins the game
         Args:
             player (Player): The player who is joining the game.
         """
-        raise NotImplementedError
+        ...
 
-    def end_game(self):
-        """Method called when the game is over
-        """
-        raise NotImplementedError
+    async def end_game(self) -> None:
+        """Method called when the game is over"""
+        ...
 
-    def request_answer(self, player):
-        """Method called when players know answer and want to be registered
+    async def request_answer(self, player: Player) -> RegisteredResponse:
+        """Method to register a player's answer
+
         Args:
             player (Player): The player who is requesting to answer.
-        """
-        raise NotImplementedError
 
-    def next_round(self):
-        """Method called when all players have submitted answers and want to move to the next round
+        Returns:
+            RegisteredResponse: The response registered for the player's answer, including the time taken to answer.
         """
-        raise NotImplementedError
+        ...
 
-    def allow_player_join(self):
+    async def next_round(self) -> None:
+        """Method called when all players have submitted answers and want to move to the next round"""
+        ...
+
+    async def allow_player_join(self) -> None:
         """Method to change the game state to allow players to join"""
-        self._joining_allowed = True
+        ...
 
-    def prohibit_player_join(self):
+    async def prohibit_player_join(self) -> None:
         """Method to change the game state to prohibit players to join"""
-        self._joining_allowed = False
+        ...
 
-    def allow_answer(self):
-        """Method to change the game state to allow players to answer
-        Answers before this method is called will be ignored"""
-        raise NotImplementedError
+    async def get_players(self) -> list[Player]:
+        """
+        Method to get all players instances
+        :return: list of Player objects
+        """
+        ...
 
-    def get_players(self):
-        return list(self._players.values())
+    async def get_player_by_id(self, player_id: int) -> Player:
+        """
+        Method to retrieve a player by their unique ID.
 
-    def see_response_order
+        Args:
+            player_id (int): The unique identifier of the player to retrieve.
 
+        Returns:
+            Player: The player object corresponding to the given ID.
+
+        Raises:
+            KeyError: If no player with the specified ID is found.
+        """
+        ...
+
+    async def get_answers_order(self) -> list[RegisteredResponse]:
+        """
+        Method to get the order in which players submitted their answers.
+
+        Returns:
+            list[RegisteredResponse]: The list of RegisteredResponse objects.
+        """
+        ...

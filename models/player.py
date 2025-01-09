@@ -10,3 +10,5 @@ class Player(BaseModel):
     def create_by_name(cls, name: str):
         return Player(id=uuid.uuid4().int, name=name)
 
+    def __hash__(self):
+        return self.id

@@ -4,10 +4,11 @@ import os
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
-import sentry_sdk
+# import sentry_sdk
 from dynaconf import Dynaconf
 from pythonjsonlogger import jsonlogger
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
+# from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 settings = Dynaconf(
     env="default",
@@ -25,28 +26,28 @@ def traces_sampler(sampling_context):
     return settings.SENTRY_TRACES_SAMPLE_RATE
 
 
-if settings.LOG_TO_SENTRY:
-    sentry_sdk.init(
-        settings.SENTRY_URL,
-        environment=settings.current_env,
-        integrations=[
-            SqlalchemyIntegration(),
-        ],
-        traces_sampler=traces_sampler,
-        send_default_pii=True,
-        ignore_errors=[
-            "TokenExpired",
-            "BadRequest",
-            "JWTError",
-            "JWKError",
-            "BaseApiException",
-            "ExpiredSignatureError",
-            "UnidentifiedImageError",
-            "BaseGqlException",
-            "NotAuthenticated",
-            "BadRequest",
-        ],
-    )
+# if settings.LOG_TO_SENTRY:
+#     sentry_sdk.init(
+#         settings.SENTRY_URL,
+#         environment=settings.current_env,
+#         integrations=[
+#             SqlalchemyIntegration(),
+#         ],
+#         traces_sampler=traces_sampler,
+#         send_default_pii=True,
+#         ignore_errors=[
+#             "TokenExpired",
+#             "BadRequest",
+#             "JWTError",
+#             "JWKError",
+#             "BaseApiException",
+#             "ExpiredSignatureError",
+#             "UnidentifiedImageError",
+#             "BaseGqlException",
+#             "NotAuthenticated",
+#             "BadRequest",
+#         ],
+#     )
 
 LOG_FILENAME = "/tmp/python.log"
 

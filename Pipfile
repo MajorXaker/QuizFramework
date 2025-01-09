@@ -9,8 +9,16 @@ fastapi = "*"
 httpx = "*"
 pydantic = "*"
 dynaconf = "*"
+uvicorn = "*"
+python-json-logger = "*"
 
 [dev-packages]
+pytest-asyncio = "==0.22.0"
+pytest = "==8.1.2"
+black = "==23.3"
+pytest-mock = "*"
+coverage = { extras = ["toml"], version = "*" }
+freezegun = "*"
 
 [requires]
-python_version = "3.12"
+python_version = "3.11"
