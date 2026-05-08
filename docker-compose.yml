@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${QH_DB_USER:-quiz}
+      POSTGRES_PASSWORD: ${QH_DB_PASSWORD:-quiz}
+      POSTGRES_DB: ${QH_DB_NAME:-quiz}
+    volumes:
+      - quiz-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    image: quiz-helper:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      QH_BIND_HOST: "0.0.0.0"
+      QH_BIND_PORT: "8080"
+      QH_DB_HOST: "db"
+      QH_DB_PORT: "5432"
+      QH_DB_USER: ${QH_DB_USER:-quiz}
+      QH_DB_PASSWORD: ${QH_DB_PASSWORD:-quiz}
+      QH_DB_NAME: ${QH_DB_NAME:-quiz}
+      QH_SESSION_TTL_SECONDS: "21600"
+      QH_HOST_DISCONNECT_GRACE_SECONDS: "60"
+      # Public backend URL (e.g. https://quiz.example.com) for the frontend
+      # to use when the page is loaded behind a Cloudflare tunnel or external
+      # DNS. Leave empty to use same-origin.
+      QH_PUBLIC_BACKEND_URL: ${QH_PUBLIC_BACKEND_URL:-}
+      RUST_LOG: ${RUST_LOG:-info}
+    ports:
+      - "${QH_PUBLISH_PORT:-8080}:8080"
+
+volumes:
+  quiz-pgdata:

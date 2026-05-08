@@ -1,0 +1,28 @@
+[package]
+name = "quiz-helper"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "quiz-helper"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.7", features = ["ws", "macros"] }
+tower-http = { version = "0.5", features = ["fs", "cors", "trace"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-rustls", "chrono", "uuid", "macros", "migrate"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+thiserror = "1"
+anyhow = "1"
+futures = "0.3"
+rand = "0.8"
+dotenvy = "0.15"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
