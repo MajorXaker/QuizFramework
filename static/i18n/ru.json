@@ -1,0 +1,19 @@
+{
+  "app.title": "Живой квиз",
+  "app.subtitle": "Фреймворк для квизов в реальном времени",
+  "login.roomCode": "Код комнаты",
+  "login.userName": "Ваше имя",
+  "login.join": "Подключиться",
+  "admin.createRoom": "Создать комнату",
+  "admin.startQuiz": "Начать квиз",
+  "admin.nextQuestion": "Следующий вопрос",
+  "admin.endQuiz": "Завершить квиз",
+  "quiz.waitingForPlayers": "Ожидание игроков...",
+  "quiz.question": "Вопрос",
+  "quiz.correct": "Верно!",
+  "quiz.incorrect": "Неверный ответ",
+  "quiz.yourAnswer": "Ваш ответ",
+  "quiz.submit": "Отправить",
+  "quiz.score": "Счёт",
+  "quiz.position": "Позиция"
+}

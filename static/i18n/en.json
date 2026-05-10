@@ -1,0 +1,19 @@
+{
+  "app.title": "Live quiz",
+  "app.subtitle": "Real-time quiz framework",
+  "login.roomCode": "Room code",
+  "login.userName": "Your name",
+  "login.join": "Join",
+  "admin.createRoom": "Create room",
+  "admin.startQuiz": "Start quiz",
+  "admin.nextQuestion": "Next question",
+  "admin.endQuiz": "End quiz",
+  "quiz.waitingForPlayers": "Waiting for players...",
+  "quiz.question": "Question",
+  "quiz.correct": "Correct!",
+  "quiz.incorrect": "Wrong answer",
+  "quiz.yourAnswer": "Your answer",
+  "quiz.submit": "Submit",
+  "quiz.score": "Score",
+  "quiz.position": "Position"
+}

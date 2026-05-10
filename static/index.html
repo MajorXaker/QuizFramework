@@ -1,119 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-    <meta name="theme-color" content="#1f2937" />
-    <title>Quiz Helper</title>
-    <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
-    <main id="app">
-        <!-- Landing -->
-        <section id="view-landing" class="view active">
-            <h1>Quiz Helper</h1>
-            <p class="muted">Real-life quiz buzzer. Host or join in seconds.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="app.title">Live quiz</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <h1 data-i18n="app.title">Live quiz</h1>
+      <span class="subtitle" data-i18n="app.subtitle">Real-time quiz framework</span>
+      <div class="lang-switcher">
+        <button type="button" data-lang-switch="en">EN</button>
+        <button type="button" data-lang-switch="ru">RU</button>
+      </div>
+    </header>
 
-            <form id="form-host" autocomplete="off">
-                <h2>Start a new game</h2>
-                <label>Your name (host)
-                    <input id="host-name" maxlength="32" required />
-                </label>
-                <button type="submit" class="primary">Create game</button>
-            </form>
+    <main>
+      <section id="join-section">
+        <label>
+          <span data-i18n="login.roomCode">Room code</span>
+          <input
+            id="room-code-input"
+            type="text"
+            data-i18n="login.roomCode"
+            data-i18n-attr="placeholder"
+            placeholder="Room code"
+          />
+        </label>
+        <label>
+          <span data-i18n="login.userName">Your name</span>
+          <input
+            id="user-name-input"
+            type="text"
+            data-i18n="login.userName"
+            data-i18n-attr="placeholder"
+            placeholder="Your name"
+          />
+        </label>
+        <button id="join-button" data-i18n="login.join">Join</button>
+      </section>
 
-            <hr />
+      <section id="admin-section">
+        <button id="create-room" data-i18n="admin.createRoom">Create room</button>
+        <button id="start-quiz" data-i18n="admin.startQuiz">Start quiz</button>
+        <button id="next-question" data-i18n="admin.nextQuestion">Next question</button>
+        <button id="end-quiz" data-i18n="admin.endQuiz">End quiz</button>
+      </section>
 
-            <form id="form-join" autocomplete="off">
-                <h2>Join a game</h2>
-                <label>Your name
-                    <input id="join-name" maxlength="32" required />
-                </label>
-                <label>Invite code
-                    <input id="join-code" maxlength="8" pattern="[a-z0-9]{8}" required
-                           inputmode="latin" autocapitalize="off" spellcheck="false" />
-                </label>
-                <button type="submit" class="primary">Join</button>
-            </form>
+      <section id="status-section">
+        <p id="waiting" data-i18n="quiz.waitingForPlayers">Waiting for players...</p>
+      </section>
 
-            <p id="landing-error" class="error"></p>
-        </section>
+      <section id="question-section">
+        <h2 data-i18n="quiz.question">Question</h2>
+        <p id="question-text"></p>
+        <input
+          id="answer-input"
+          type="text"
+          data-i18n="quiz.yourAnswer"
+          data-i18n-attr="placeholder"
+          placeholder="Your answer"
+        />
+        <button id="submit-answer" data-i18n="quiz.submit">Submit</button>
+      </section>
 
-        <!-- Player game view -->
-        <section id="view-player" class="view">
-            <header class="bar">
-                <span class="who" id="player-who"></span>
-                <button id="player-leave" class="link">Leave</button>
-            </header>
-            <div id="player-status" class="status">Waiting for host…</div>
-
-            <button id="answer-btn" class="answer-btn" disabled>BUZZ</button>
-
-            <div id="winner-banner" class="banner hidden"></div>
-
-            <details class="roster">
-                <summary>Players</summary>
-                <ul id="player-roster"></ul>
-            </details>
-        </section>
-
-        <!-- Host view -->
-        <section id="view-host" class="view">
-            <header class="bar">
-                <span class="who" id="host-who"></span>
-                <button id="host-close" class="link danger">Close game</button>
-            </header>
-
-            <nav class="tabs">
-                <button class="tab active" data-tab="game">Game</button>
-                <button class="tab" data-tab="config">Configuration</button>
-            </nav>
-
-            <!-- Game tab -->
-            <section id="tab-game" class="tab-pane active">
-                <div class="invite-card">
-                    <div class="muted">Invite code</div>
-                    <div class="invite-code" id="invite-code-display">--------</div>
-                </div>
-
-                <div class="round-controls">
-                    <button id="btn-start-round" class="primary big">Start question</button>
-                    <button id="btn-stop-round" class="danger big" disabled>Stop question</button>
-                </div>
-
-                <div id="host-winner" class="banner hidden"></div>
-                <div id="host-status" class="status muted"></div>
-
-                <h3>Players</h3>
-                <ul id="host-roster"></ul>
-            </section>
-
-            <!-- Configuration tab -->
-            <section id="tab-config" class="tab-pane">
-                <div class="invite-card">
-                    <div class="muted">Invite code</div>
-                    <div class="invite-code" id="config-code-display">--------</div>
-                    <button id="btn-regen-code">Regenerate</button>
-                </div>
-
-                <div class="toggle-row">
-                    <label class="switch">
-                        <input type="checkbox" id="toggle-joins" />
-                        <span>Allow new players to join</span>
-                    </label>
-                </div>
-                <div class="toggle-row">
-                    <label class="switch">
-                        <input type="checkbox" id="toggle-answers" />
-                        <span>Answer mode (players see buzzer)</span>
-                    </label>
-                </div>
-
-                <h3>Players</h3>
-                <ul id="config-roster"></ul>
-            </section>
-        </section>
+      <section id="score-section">
+        <h2 data-i18n="quiz.score">Score</h2>
+        <div id="score-table"></div>
+      </section>
     </main>
-    <script src="/app.js"></script>
-</body>
+
+    <script src="/static/i18n.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
 </html>
