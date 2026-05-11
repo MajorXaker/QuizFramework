@@ -1,0 +1,74 @@
+{
+  "app.title": "Quiz Helper",
+  "app.subtitle": "Real-life quiz buzzer. Host or join in seconds.",
+  "welcome": {
+    "createRoomTitle": "Start a new game",
+    "enterHostName": "Your name (host)",
+    "createRoomButton": "Create room",
+    "joinTitle": "Join a game",
+    "enterPlayerName": "Your name",
+    "enterInviteCode": "Invite code",
+    "join": "Join"
+  },
+  "player": {
+    "leave": "Leave",
+    "wait": "Waiting for host…",
+    "answer": "I know!",
+    "answerNow": "Answer now!",
+    "list": "Players",
+    "name_suffix": "",
+    "status": {
+      "answer_now": "Answer now!",
+      "waiting_for_host": "Waiting for the host to start a question.",
+      "answer_mode_off": "Answer mode is off."
+    },
+    "buzz_button": {
+      "default": "BUZZ",
+      "wait": "Wait…",
+      "sent": "Sent ({ms} ms)"
+    },
+    "winner_banner": {
+      "you_were_first": "You were first! ({ms} ms)",
+      "other_was_first": "{name} was first ({ms} ms)"
+    }
+  },
+  "host": {
+    "close": "Close game",
+    "gameTab": "Game",
+    "configTab": "Configuration",
+    "questionStart": "Start question",
+    "questionStop": "Stop question",
+    "regenerateInvite": "Regenerate",
+    "allowJoin": "Allow new players to join",
+    "answerMode": "Answer mode (players see buzzer)",
+    "name_suffix": " (host)",
+    "confirm_end_game": "End the game for everyone?",
+    "status": {
+      "live": "Question is live.",
+      "answer_mode_on": "Answer mode is on.",
+      "answer_mode_off": "Answer mode off."
+    },
+    "winner_banner": {
+      "buzzed_first": "{name} buzzed first ({ms} ms)",
+      "waiting": "Waiting for first answer…"
+    },
+    "roster": {
+      "empty": "No players yet.",
+      "kick": "Kick"
+    }
+  },
+  "results": {
+    "win": "You were first! It took you {{time}}",
+    "lose": "Player '{{winner}} was first'. It took them {{time}}"
+  },
+  "landing": {
+    "error": {
+      "invalid_code": "Need a name and an 8-character code.",
+      "disconnected": "Disconnected from server."
+    }
+  },
+  "session": {
+    "kicked": "You were removed by the host.",
+    "closed": "Session ended ({reason})."
+  }
+}
