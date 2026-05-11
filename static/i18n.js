@@ -1,5 +1,5 @@
 (function () {
-  const DEFAULT_LANG = "en";
+  const DEFAULT_LANG = "ru";
   const STORAGE_KEY = "quizframework.lang";
 
   function getCurrentLang() {
@@ -18,7 +18,7 @@
 
   async function loadTranslations(lang) {
     try {
-      const res = await fetch(`/static/i18n/${lang}.json`);
+      const res = await fetch(`/i18n/${lang}.json`);
       if (!res.ok) throw new Error("Failed to load translations");
       const data = await res.json();
       window.__translations = data;
@@ -50,6 +50,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    console.log("loaded");
     const lang = getCurrentLang();
     loadTranslations(lang);
 

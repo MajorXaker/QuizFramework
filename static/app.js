@@ -116,7 +116,7 @@
         const name = $("join-name").value.trim();
         const code = $("join-code").value.trim().toLowerCase();
         if (!name || !/^[a-z0-9]{8}$/.test(code)) {
-            $("landing-error").textContent = "Need a name and an 8-character code.";
+            $("landing-error").textContent = t("landing.error.invalid_code");
             return;
         }
         try {
@@ -140,7 +140,8 @@
         state.ws = ws;
         ws.addEventListener("open", () => {
             showView(state.isHost ? "host" : "player");
-            $(state.isHost ? "host-who" : "player-who").textContent = `${state.myName}${state.isHost ? " (host)" : ""}`;
+            const suffix = state.isHost ? t("host.name_suffix") : t("player.name_suffix");
+            $(state.isHost ? "host-who" : "player-who").textContent = `${state.myName}${suffix}`;
         });
         ws.addEventListener("message", (e) => {
             let msg;
@@ -150,10 +151,10 @@
         ws.addEventListener("close", () => {
             state.ws = null;
             if (!state.wsClosing) {
-                // unexpected disconnect — go back to landing
+                // Unexpected disconnect — go back to landing.
                 clearSession();
                 showView("landing");
-                $("landing-error").textContent = "Disconnected from server.";
+                $("landing-error").textContent = t("landing.error.disconnected");
             }
         });
     }
@@ -180,7 +181,7 @@
     $("player-leave").addEventListener("click", leaveAndReset);
 
     $("host-close").addEventListener("click", async () => {
-        if (!confirm("End the game for everyone?")) return;
+        if (!confirm(t("host.confirm_end_game"))) return;
         try { await api(`/api/sessions/${state.sessionId}/close`, { host_id: state.hostId }); } catch {}
         leaveAndReset();
     });
@@ -222,11 +223,11 @@
                 renderRoundUi();
                 break;
             case "kicked":
-                alert("You were removed by the host.");
+                alert(t("session.kicked"));
                 leaveAndReset();
                 break;
             case "session_closed":
-                alert(`Session ended (${msg.reason}).`);
+                alert(t("session.closed", { reason: msg.reason }));
                 leaveAndReset();
                 break;
             case "error":
@@ -257,6 +258,7 @@
 
     function renderRosters() {
         const players = state.participants.filter((p) => !p.is_host);
+
         // Host views (config + game)
         for (const id of ["host-roster", "config-roster"]) {
             const el = $(id);
@@ -264,6 +266,7 @@
             for (const p of players) {
                 const li = document.createElement("li");
                 li.className = "player";
+
                 const left = document.createElement("div");
                 const dot = document.createElement("span");
                 dot.className = "dot" + (p.connected ? " online" : "");
@@ -275,7 +278,7 @@
 
                 const right = document.createElement("button");
                 right.className = "kick";
-                right.textContent = "Kick";
+                right.textContent = t("host.roster.kick");
                 right.addEventListener("click", () => kickPlayer(p.id));
                 li.appendChild(left);
                 li.appendChild(right);
@@ -284,10 +287,11 @@
             if (players.length === 0) {
                 const empty = document.createElement("li");
                 empty.className = "muted";
-                empty.textContent = "No players yet.";
+                empty.textContent = t("host.roster.empty");
                 el.appendChild(empty);
             }
         }
+
         // Player view roster (read-only)
         const pr = $("player-roster");
         pr.innerHTML = "";
@@ -299,7 +303,8 @@
             dot.className = "dot" + (p.connected ? " online" : "");
             const name = document.createElement("span");
             name.className = "name";
-            name.textContent = p.name + (p.is_host ? " (host)" : "");
+            // The "(host)" suffix is defined in the locale so it can be translated.
+            name.textContent = p.name + (p.is_host ? t("host.name_suffix") : "");
             left.appendChild(dot);
             left.appendChild(name);
             li.appendChild(left);
@@ -316,53 +321,64 @@
                 banner.classList.remove("hidden");
                 banner.classList.add("win");
                 banner.classList.remove("lose");
-                banner.textContent = `${state.winner.participant_name} buzzed first (${state.winner.elapsed_ms} ms)`;
+                banner.textContent = t("host.winner_banner.buzzed_first", {
+                    name: state.winner.participant_name,
+                    ms: state.winner.elapsed_ms,
+                });
             } else if (state.currentRound) {
                 banner.classList.remove("hidden");
                 banner.classList.remove("win");
                 banner.classList.add("lose");
-                banner.textContent = "Waiting for first answer…";
+                banner.textContent = t("host.winner_banner.waiting");
             } else {
                 banner.classList.add("hidden");
             }
             $("host-status").textContent = state.currentRound
-                ? "Question is live."
-                : (state.answersEnabled ? "Answer mode is on." : "Answer mode off.");
+                ? t("host.status.live")
+                : (state.answersEnabled
+                    ? t("host.status.answer_mode_on")
+                    : t("host.status.answer_mode_off"));
         } else {
             const btn = $("answer-btn");
             const banner = $("winner-banner");
             const status = $("player-status");
+
             if (state.winner) {
                 btn.disabled = true;
                 btn.classList.remove("armed");
-                btn.textContent = "BUZZ";
                 banner.classList.remove("hidden");
                 if (state.winner.participant_id === state.participantId) {
-                    banner.classList.add("win"); banner.classList.remove("lose");
-                    banner.textContent = `You were first! (${state.winner.elapsed_ms} ms)`;
+                    banner.classList.add("win");
+                    banner.classList.remove("lose");
+                    banner.textContent = t("player.winner_banner.you_were_first", {
+                        ms: state.winner.elapsed_ms,
+                    });
                 } else {
-                    banner.classList.add("lose"); banner.classList.remove("win");
-                    banner.textContent = `${state.winner.participant_name} was first (${state.winner.elapsed_ms} ms)`;
+                    banner.classList.add("lose");
+                    banner.classList.remove("win");
+                    banner.textContent = t("player.winner_banner.other_was_first", {
+                        name: state.winner.participant_name,
+                        ms: state.winner.elapsed_ms,
+                    });
                 }
                 status.textContent = "";
             } else if (state.currentRound) {
                 btn.disabled = false;
                 btn.classList.add("armed");
-                btn.textContent = "BUZZ!";
                 banner.classList.add("hidden");
-                status.textContent = "Answer now!";
+                status.textContent = t("player.status.answer_now");
             } else if (state.answersEnabled) {
                 btn.disabled = true;
                 btn.classList.remove("armed");
-                btn.textContent = "Wait…";
+                btn.textContent = t("player.buzz_button.wait");
                 banner.classList.add("hidden");
-                status.textContent = "Waiting for the host to start a question.";
+                status.textContent = t("player.status.waiting_for_host");
             } else {
                 btn.disabled = true;
                 btn.classList.remove("armed");
-                btn.textContent = "BUZZ";
+                btn.textContent = t("player.buzz_button.default");
                 banner.classList.add("hidden");
-                status.textContent = "Answer mode is off.";
+                status.textContent = t("player.status.answer_mode_off");
             }
         }
     }
@@ -416,7 +432,7 @@
         const btn = $("answer-btn");
         btn.disabled = true;
         btn.classList.remove("armed");
-        btn.textContent = `Sent (${elapsed} ms)`;
+        btn.textContent = t("player.buzz_button.sent", { ms: elapsed });
     };
     // Use pointerdown for lowest-latency input.
     $("answer-btn").addEventListener("pointerdown", buzz);
