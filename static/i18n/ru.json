@@ -1,0 +1,76 @@
+{
+  "app": {
+    "title": "Помощник для Квиза",
+    "subtitle": "Создай и проведи свой квиз за секунды. Теперь вы точно знаете кто отвечает первым!"
+  },
+  "welcome": {
+    "createRoomTitle": "Начать новую игру",
+    "enterHostName": "Ваше имя (ведущий)",
+    "createRoomButton": "Создать комнату",
+    "joinTitle": "Присоединиться к игре",
+    "enterPlayerName": "Ваше имя",
+    "enterInviteCode": "Код приглашения",
+    "join": "Присоединиться"
+  },
+  "player": {
+    "leave": "Выйти",
+    "wait": "Ожидаем ведущего…",
+    "answer": "Я знаю!",
+    "answerNow": "Ждем ответа",
+    "list": "Игроки",
+    "name_suffix": "",
+    "status": {
+      "answer_now": "Ждем ответа",
+      "waiting_for_host": "Ждём, когда ведущий разрешит отвечать",
+      "answer_mode_off": "Режим ответов отключен"
+    },
+    "buzz_button": {
+      "default": "Знаю!",
+      "wait": "Жду…",
+      "sent": "Отправлено ({ms} ms)"
+    },
+    "winner_banner": {
+      "you_were_first": "Вы были первым! ({ms} мс)",
+      "other_was_first": "Игрок '{name}' был первым ({ms} мс)"
+    }
+  },
+  "host": {
+    "close": "Завершить игру",
+    "gameTab": "Игра",
+    "configTab": "Настройки",
+    "questionStart": "Новый вопрос",
+    "questionStop": "Завершить вопрос",
+    "regenerateInvite": "Создать новый код",
+    "allowJoin": "Разрешить подключение",
+    "answerMode": "Режим ответов (игроки видят кнопку)",
+    "name_suffix": " (ведущий)",
+    "confirm_end_game": "Завершить игру для всех?",
+    "status": {
+      "live": "Вопрос ожидает ответа.",
+      "answer_mode_on": "Можно отвечать",
+      "answer_mode_off": "Отвечать нельзя."
+    },
+    "winner_banner": {
+      "buzzed_first": "Игрок '{name}' был первым ({ms} мс)",
+      "waiting": "Ожидаем первого ответа…"
+    },
+    "roster": {
+      "empty": "Нет игроков",
+      "kick": "Выгнать"
+    }
+  },
+  "results": {
+    "win": "Вы были первым! ({ms} мс)",
+    "lose": "Игрок '{name}' был первым ({ms} мс)"
+  },
+  "landing": {
+    "error": {
+      "invalid_code": "Нужно имя и 8-значный код приглашения",
+      "disconnected": "Отключено от сервера."
+    }
+  },
+  "session": {
+    "kicked": "Ведущий вас прогнал",
+    "closed": "Игра завершена ({reason})."
+  }
+}

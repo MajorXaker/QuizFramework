@@ -1,5 +1,5 @@
 (function () {
-  const DEFAULT_LANG = "ru";
+  const DEFAULT_LANG = "en";
   const STORAGE_KEY = "quizframework.lang";
 
   function getCurrentLang() {
@@ -18,21 +18,22 @@
 
   async function loadTranslations(lang) {
     try {
-      const res = await fetch(`/i18n/${lang}.json`);
-      if (!res.ok) throw new Error("Failed to load translations");
+      const res = await fetch(`/static/i18n/${lang}.json`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       window.__translations = data;
       applyTranslations();
     } catch (e) {
       console.error("i18n load error", e);
+      if (lang !== "en") {
+        loadTranslations("en");
+      }
     }
   }
 
   function t(key) {
-    if (window.__translations && Object.prototype.hasOwnProperty.call(window.__translations, key)) {
-      return window.__translations[key];
-    }
-    return key;
+    const value = key.split(".").reduce((acc, part) => acc?.[part], window.__translations);
+    return value ?? key;
   }
 
   function applyTranslations() {

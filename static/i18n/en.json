@@ -1,6 +1,8 @@
 {
-  "app.title": "Quiz Helper",
-  "app.subtitle": "Real-life quiz buzzer. Host or join in seconds.",
+  "app": {
+    "title": "Quiz Helper",
+    "subtitle": "Real-life quiz buzzer. Host or join in seconds."
+  },
   "welcome": {
     "createRoomTitle": "Start a new game",
     "enterHostName": "Your name (host)",
