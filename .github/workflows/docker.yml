@@ -15,7 +15,7 @@ on:
       - master
 
 env:
-  IMAGE_NAME: ghcr.io/majorxaker/QuizFramework
+  IMAGE_NAME: ghcr.io/majorxaker/quizframework
 
 jobs:
   build-and-push:
